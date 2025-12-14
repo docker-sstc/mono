@@ -30,7 +30,7 @@ jobs:
         DOCKER_PASS: ${{ secrets.DOCKERHUB_PASSWORD }}
       with:
         destination_container_repo: sstc/${{ env.PACKAGE_ID }}
-        short_description: https://github.com/${{ github.repository }}/packages/${{ env.PACKAGE_ID }}
+        short_description: https://github.com/${{ github.repository }}/tree/master/packages/${{ env.PACKAGE_ID }}
         readme_file: './packages/${{ env.PACKAGE_ID }}/README.md'
   notify:
     if: cancelled() == false
