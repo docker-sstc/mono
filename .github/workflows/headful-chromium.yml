@@ -28,6 +28,7 @@ jobs:
           type=raw,value=debian-11
     - uses: docker/build-push-action@v6
       with:
+        context: ./packages/${{ env.PACKAGE_NAME }}
         push: true
         platforms: linux/amd64,linux/arm64
         file: ./packages/${{ env.PACKAGE_NAME }}/debian-11/Dockerfile
@@ -44,6 +45,7 @@ jobs:
           type=raw,value=debian-12
     - uses: docker/build-push-action@v6
       with:
+        context: ./packages/${{ env.PACKAGE_NAME }}
         push: true
         platforms: linux/amd64,linux/arm64
         file: ./packages/${{ env.PACKAGE_NAME }}/debian-12/Dockerfile
@@ -59,6 +61,7 @@ jobs:
           type=raw,value=ubuntu-22
     - uses: docker/build-push-action@v6
       with:
+        context: ./packages/${{ env.PACKAGE_NAME }}
         push: true
         platforms: linux/amd64,linux/arm64
         file: ./packages/${{ env.PACKAGE_NAME }}/ubuntu-22/Dockerfile
@@ -76,6 +79,7 @@ jobs:
           type=raw,value=ubuntu-24
     - uses: docker/build-push-action@v6
       with:
+        context: ./packages/${{ env.PACKAGE_NAME }}
         push: true
         platforms: linux/amd64,linux/arm64
         file: ./packages/${{ env.PACKAGE_NAME }}/ubuntu-24/Dockerfile

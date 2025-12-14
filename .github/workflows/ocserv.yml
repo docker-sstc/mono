@@ -20,6 +20,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - uses: docker/build-push-action@v4
       with:
+        context: ./packages/${{ env.PACKAGE_NAME }}
         push: true
         platforms: linux/amd64,linux/arm64
         file: ./packages/${{ env.PACKAGE_NAME }}/Dockerfile
