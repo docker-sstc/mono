@@ -1,6 +1,6 @@
-# docker-notify
+# notify
 
-[![Build workflow](https://github.com/docker-sstc/docker-notify/actions/workflows/main.yml/badge.svg)](https://github.com/docker-sstc/docker-notify/actions)
+[![Build workflow](https://github.com/docker-sstc/mono/actions/workflows/notify.yml/badge.svg)](https://github.com/docker-sstc/mono/actions)
 [![Docker pulls](https://img.shields.io/docker/pulls/sstc/notify.svg)](https://hub.docker.com/r/sstc/notify)
 
 Command line notifications, all in one:
