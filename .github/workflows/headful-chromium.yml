@@ -1,6 +1,6 @@
 env:
   PLAYWRIGHT_VERSION: 1.57.0
-  PACKAGE_NAME: headful-chromium
+  PACKAGE_ID: headful-chromium
 on:
   push:
     branches:
@@ -9,9 +9,14 @@ on:
       - .github/workflows/headful-chromium.yml
       - packages/headful-chromium/**
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    outputs:
+      PACKAGE_ID: ${{ steps.e.outputs.PACKAGE_ID }}
     steps:
+    - id: e
+      run: |
+        echo "PACKAGE_ID=${{env.PACKAGE_ID}}" >> "$GITHUB_OUTPUT"
     - uses: actions/checkout@v4
     - uses: docker/setup-qemu-action@v3
     - uses: docker/setup-buildx-action@v3
@@ -23,15 +28,15 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          sstc/${{ env.PACKAGE_NAME }}
+          sstc/${{ env.PACKAGE_ID }}
         tags: |
           type=raw,value=debian-11
     - uses: docker/build-push-action@v6
       with:
-        context: ./packages/${{ env.PACKAGE_NAME }}
+        context: ./packages/${{ env.PACKAGE_ID }}
         push: true
         platforms: linux/amd64,linux/arm64
-        file: ./packages/${{ env.PACKAGE_NAME }}/debian-11/Dockerfile
+        file: ./packages/${{ env.PACKAGE_ID }}/debian-11/Dockerfile
         tags: ${{ steps.meta_debian11.outputs.tags }}
         build-args: |
           PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
@@ -39,16 +44,16 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          sstc/${{ env.PACKAGE_NAME }}
+          sstc/${{ env.PACKAGE_ID }}
         tags: |
           type=raw,value=debian
           type=raw,value=debian-12
     - uses: docker/build-push-action@v6
       with:
-        context: ./packages/${{ env.PACKAGE_NAME }}
+        context: ./packages/${{ env.PACKAGE_ID }}
         push: true
         platforms: linux/amd64,linux/arm64
-        file: ./packages/${{ env.PACKAGE_NAME }}/debian-12/Dockerfile
+        file: ./packages/${{ env.PACKAGE_ID }}/debian-12/Dockerfile
         tags: ${{ steps.meta_debian12.outputs.tags }}
         build-args: |
           PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
@@ -56,15 +61,15 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          sstc/${{ env.PACKAGE_NAME }}
+          sstc/${{ env.PACKAGE_ID }}
         tags: |
           type=raw,value=ubuntu-22
     - uses: docker/build-push-action@v6
       with:
-        context: ./packages/${{ env.PACKAGE_NAME }}
+        context: ./packages/${{ env.PACKAGE_ID }}
         push: true
         platforms: linux/amd64,linux/arm64
-        file: ./packages/${{ env.PACKAGE_NAME }}/ubuntu-22/Dockerfile
+        file: ./packages/${{ env.PACKAGE_ID }}/ubuntu-22/Dockerfile
         tags: ${{ steps.meta_ubuntu22.outputs.tags }}
         build-args: |
           PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
@@ -72,17 +77,17 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          sstc/${{ env.PACKAGE_NAME }}
+          sstc/${{ env.PACKAGE_ID }}
         tags: |
           type=raw,value=latest
           type=raw,value=ubuntu
           type=raw,value=ubuntu-24
     - uses: docker/build-push-action@v6
       with:
-        context: ./packages/${{ env.PACKAGE_NAME }}
+        context: ./packages/${{ env.PACKAGE_ID }}
         push: true
         platforms: linux/amd64,linux/arm64
-        file: ./packages/${{ env.PACKAGE_NAME }}/ubuntu-24/Dockerfile
+        file: ./packages/${{ env.PACKAGE_ID }}/ubuntu-24/Dockerfile
         tags: ${{ steps.meta_ubuntu24.outputs.tags }}
         build-args: |
           PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
@@ -91,12 +96,14 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_PASS: ${{ secrets.DOCKERHUB_PASSWORD }}
       with:
-        destination_container_repo: sstc/${{ env.PACKAGE_NAME }}
-        short_description: https://github.com/${{ github.repository }}/packages/${{ env.PACKAGE_NAME }}
-        readme_file: './packages/${{ env.PACKAGE_NAME }}/README.md'
-    - uses: up9cloud/action-notify@master
-      if: cancelled() == false
-      env:
-        GITHUB_JOB_STATUS: ${{ job.status }}
-        TELEGRAM_BOT_TOKEN: ${{secrets.TELEGRAM_BOT_TOKEN}}
-        TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_CHAT_ID}}
+        destination_container_repo: sstc/${{ env.PACKAGE_ID }}
+        short_description: https://github.com/${{ github.repository }}/packages/${{ env.PACKAGE_ID }}
+        readme_file: './packages/${{ env.PACKAGE_ID }}/README.md'
+  notify:
+    if: cancelled() == false
+    needs: deploy
+    secrets: inherit
+    uses: ./.github/workflows/_notify.yml
+    with:
+      conclusion: ${{ needs.deploy.result }}
+      package: ${{ needs.deploy.outputs.PACKAGE_ID }}

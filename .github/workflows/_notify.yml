@@ -1,0 +1,42 @@
+on:
+  # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#onworkflow_callinputs
+  workflow_call:
+    inputs:
+      conclusion:
+        required: true
+        type: string
+      package:
+        required: true
+        type: string
+    secrets:
+      TELEGRAM_BOT_TOKEN:
+        required: true
+      TELEGRAM_CHAT_ID:
+        required: true
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: '.github'
+          sparse-checkout-cone-mode: false
+      # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#setting-an-output-parameter
+      # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions?tool=bash#multiline-strings
+      - id: e
+        run: |
+          delimiter=EOF_$(openssl rand -hex 8)
+          {
+            echo "notify_template<<${delimiter}"
+            cat ./.github/telegram-notify.md
+            echo
+            echo ${delimiter}
+          } >> "$GITHUB_OUTPUT"
+      - uses: up9cloud/action-notify@master
+        env:
+          GITHUB_JOB_STATUS: ${{ inputs.conclusion }}
+          PACKAGE_NAME: ${{ inputs.package }}
+          TELEGRAM_BOT_TOKEN: ${{secrets.TELEGRAM_BOT_TOKEN}}
+          TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_CHAT_ID}}
+          TELEGRAM_TEMPLATE_CONTENT: ${{ steps.e.outputs.notify_template }}
+          TELEGRAM_PARSE_MODE: md

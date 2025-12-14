@@ -1,14 +1,19 @@
 env:
-  PACKAGE_NAME: notify
+  PACKAGE_ID: notify
 on:
   push:
     paths:
       - .github/workflows/notify.yml
       - packages/notify/**
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    outputs:
+      PACKAGE_ID: ${{ steps.e.outputs.PACKAGE_ID }}
     steps:
+    - id: e
+      run: |
+        echo "PACKAGE_ID=${{env.PACKAGE_ID}}" >> "$GITHUB_OUTPUT"
     - uses: actions/checkout@v4
     - uses: docker/setup-qemu-action@v3
     - uses: docker/setup-buildx-action@v3
@@ -18,22 +23,24 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - uses: docker/build-push-action@v4
       with:
-        context: ./packages/${{ env.PACKAGE_NAME }}
+        context: ./packages/${{ env.PACKAGE_ID }}
         push: true
         platforms: linux/amd64,linux/arm64
-        file: ./packages/${{ env.PACKAGE_NAME }}/Dockerfile
-        tags: sstc/${{ env.PACKAGE_NAME }}:latest
+        file: ./packages/${{ env.PACKAGE_ID }}/Dockerfile
+        tags: sstc/${{ env.PACKAGE_ID }}:latest
     - uses: christian-korneck/update-container-description-action@v1
       env:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_PASS: ${{ secrets.DOCKERHUB_PASSWORD }}
       with:
-        destination_container_repo: sstc/${{ env.PACKAGE_NAME }}
-        short_description: https://github.com/${{ github.repository }}/packages/${{ env.PACKAGE_NAME }}
-        readme_file: './packages/${{ env.PACKAGE_NAME }}/README.md'
-    - uses: up9cloud/action-notify@master
-      if: cancelled() == false
-      env:
-        GITHUB_JOB_STATUS: ${{ job.status }}
-        TELEGRAM_BOT_TOKEN: ${{secrets.TELEGRAM_BOT_TOKEN}}
-        TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_CHAT_ID}}
+        destination_container_repo: sstc/${{ env.PACKAGE_ID }}
+        short_description: https://github.com/${{ github.repository }}/packages/${{ env.PACKAGE_ID }}
+        readme_file: './packages/${{ env.PACKAGE_ID }}/README.md'
+  notify:
+    if: cancelled() == false
+    needs: deploy
+    secrets: inherit
+    uses: ./.github/workflows/_notify.yml
+    with:
+      conclusion: ${{ needs.deploy.result }}
+      package: ${{ needs.deploy.outputs.PACKAGE_ID }}
