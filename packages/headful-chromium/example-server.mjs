@@ -9,6 +9,11 @@ async function main() {
     port: 3000,
     wsPath: '/',
     // _userDataDir: '/tmp'
+    args: [
+      `--remote-debugging-port=9222`,
+      // `--remote-debugging-address=0.0.0.0`, // only work with headless: true
+      // '--remote-allow-origins=*'
+    ]
   })
   const wsEndpoint = browserServer.wsEndpoint()
   console.log(wsEndpoint)

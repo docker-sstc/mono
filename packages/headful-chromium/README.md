@@ -5,13 +5,27 @@
 
 ## Usage
 
+### 1. Link Playwright Into Your Local Project
+
+To use the globally installed Playwright inside your project, link it using:
+
 ```bash
 docker run --rm \
   -v $(pwd):/app \
   -w /app \
   sstc/headful-chromium \
   npm link playwright
+```
 
+### 2. Running Automation Tasks
+
+You can run everything in a single container, or split responsibilities
+
+#### Option A: Launch Browser & Run Tasks (Single Script)
+
+This will start a browser and immediately run your automation script in the same container:
+
+```bash
 docker run --rm \
   --init \
   --ipc=host \
@@ -22,15 +36,11 @@ docker run --rm \
   ./example-entrypoint.sh node example-launch.mjs
 ```
 
-## Advanced Usage
+#### Option B: Start Browser Server and Connect Remotely
+
+**Step 1:** Start the browser server in a dedicated container:
 
 ```bash
-docker run --rm \
-  -v $(pwd):/app \
-  -w /app \
-  sstc/headful-chromium \
-  npm link playwright
-
 docker run --rm \
   --init \
   --ipc=host \
@@ -40,7 +50,11 @@ docker run --rm \
   -w /app \
   sstc/headful-chromium \
   ./example-entrypoint.sh node example-server.mjs
+# If the client is running on a different host than the server, you may need to forward the debugging port using:
+# socat TCP-LISTEN:9222,fork,reuseaddr TCP:127.0.0.1:9222
 ```
+
+**Step 2:** In another terminal/process/container, connect to the running browser server and execute your automation:
 
 ```bash
 docker run --rm \
