@@ -13,10 +13,7 @@ RUN set -ex; \
 		xauth \
 		; \
 	ln -s /usr/bin/chromium /usr/bin/google-chrome; \
-	ln -s /usr/bin/chromium /usr/bin/chromium-browser
-
-RUN set -ex; \
-	apt update; \
+	ln -s /usr/bin/chromium /usr/bin/chromium-browser; \
 	curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -; \
 	DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -y \
 		nodejs \

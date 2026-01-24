@@ -13,20 +13,16 @@ RUN set -ex; \
 		xauth \
 		; \
 	ln -s /usr/bin/chromium /usr/bin/google-chrome; \
-	ln -s /usr/bin/chromium /usr/bin/chromium-browser
-
-# Install scripts
-RUN set -ex; \
-	apt update; \
+	ln -s /usr/bin/chromium /usr/bin/chromium-browser; \
 	curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -; \
 	DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -y \
 		nodejs \
 		; \
 	apt clean; \
 	apt purge -y --auto-remove \
-    curl \
+		curl \
 		; \
-  rm -rf /usr/share/doc; \
+	rm -rf /usr/share/doc; \
 	rm -rf /var/lib/apt/lists/*
 
 # Essentials for scripts
