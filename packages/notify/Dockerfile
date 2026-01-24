@@ -1,4 +1,5 @@
-FROM alpine:3.21.3
+ARG ALPINE_VERSION
+FROM alpine:${ALPINE_VERSION}
 
 ENV TELEGRAM_SH_SRC_URL=https://raw.githubusercontent.com/up9cloud/telegram-bot-send.sh/master/tg.ash \
 	SLACK_SH_SRC_URL=https://raw.githubusercontent.com/rockymadden/slack-cli/master/src/slack \

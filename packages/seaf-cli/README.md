@@ -86,8 +86,4 @@ nano /bin/seaf-cli
 
 ## TODO
 
-- hard link log files to stdout: `ln -sf /proc/self/fd/1 /var/log/myapp.log`
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+- hard link log files to stdout: `ln -sf /proc/self/fd/1 /var/log/app.log`

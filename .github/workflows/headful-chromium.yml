@@ -1,6 +1,6 @@
 env:
-  PLAYWRIGHT_VERSION: 1.57.0
   PACKAGE_ID: headful-chromium
+  PLAYWRIGHT_VERSION: 1.58.0
 on:
   push:
     branches:
@@ -16,7 +16,7 @@ jobs:
     steps:
     - id: e
       run: |
-        echo "PACKAGE_ID=${{env.PACKAGE_ID}}" >> "$GITHUB_OUTPUT"
+        echo "PACKAGE_ID=${{ env.PACKAGE_ID }}" >> "$GITHUB_OUTPUT"
     - uses: actions/checkout@v4
     - uses: docker/setup-qemu-action@v3
     - uses: docker/setup-buildx-action@v3
@@ -39,7 +39,7 @@ jobs:
         file: ./packages/${{ env.PACKAGE_ID }}/debian-11/Dockerfile
         tags: ${{ steps.meta_debian11.outputs.tags }}
         build-args: |
-          PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
+          PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
     - id: meta_debian12
       uses: docker/metadata-action@v5
       with:
@@ -56,7 +56,7 @@ jobs:
         file: ./packages/${{ env.PACKAGE_ID }}/debian-12/Dockerfile
         tags: ${{ steps.meta_debian12.outputs.tags }}
         build-args: |
-          PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
+          PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
     - id: meta_ubuntu22
       uses: docker/metadata-action@v5
       with:
@@ -72,7 +72,7 @@ jobs:
         file: ./packages/${{ env.PACKAGE_ID }}/ubuntu-22/Dockerfile
         tags: ${{ steps.meta_ubuntu22.outputs.tags }}
         build-args: |
-          PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
+          PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
     - id: meta_ubuntu24
       uses: docker/metadata-action@v5
       with:
@@ -90,7 +90,7 @@ jobs:
         file: ./packages/${{ env.PACKAGE_ID }}/ubuntu-24/Dockerfile
         tags: ${{ steps.meta_ubuntu24.outputs.tags }}
         build-args: |
-          PLAYWRIGHT_VERSION=${{env.PLAYWRIGHT_VERSION}}
+          PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
     - uses: christian-korneck/update-container-description-action@v1
       env:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}

@@ -1,5 +1,6 @@
 env:
   PACKAGE_ID: android-ndk
+  CMAKE_VERSION: 4.2.2
 on:
   push:
     paths:
@@ -13,7 +14,7 @@ jobs:
     steps:
     - id: e
       run: |
-        echo "PACKAGE_ID=${{env.PACKAGE_ID}}" >> "$GITHUB_OUTPUT"
+        echo "PACKAGE_ID=${{ env.PACKAGE_ID }}" >> "$GITHUB_OUTPUT"
     - uses: actions/checkout@v4
     - uses: docker/login-action@v1 
       with:
@@ -24,6 +25,8 @@ jobs:
         push: true
         file: ./packages/${{ env.PACKAGE_ID }}/Dockerfile
         tags: sstc/${{ env.PACKAGE_ID }}:latest
+        build-args: |
+          CMAKE_VERSION=${{ env.CMAKE_VERSION }}
     - uses: christian-korneck/update-container-description-action@v1
       env:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}

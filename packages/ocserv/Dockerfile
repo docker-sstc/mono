@@ -1,4 +1,5 @@
-FROM docker.io/alpine:3.21
+ARG ALPINE_VERSION
+FROM alpine:${ALPINE_VERSION}
 
 # https://ocserv.openconnect-vpn.net/download
 ENV OC_VERSION=1.3.0

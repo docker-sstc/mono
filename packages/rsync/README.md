@@ -59,7 +59,3 @@ Due to `https://github.com/docker/docker/issues/2259` we can:
 1. `-e "ssh -F /dev/null"` to force rsync not read the config.
 2. or `-v /root/.ssh:/root/.ssh` mount root config instead!
 3. or `-v ~/.ssh/id_rsa:/root/id_rsa` only mount the key file.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
