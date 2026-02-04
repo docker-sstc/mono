@@ -21,7 +21,7 @@ docker run --rm \
 
 You can run everything in a single container, or split responsibilities
 
-#### Option A: Launch Browser & Run Tasks (Single Script)
+#### Option A: Launch Browser & Run Tasks (Standalone mode)
 
 This will start a browser and immediately run your automation script in the same container:
 
@@ -33,10 +33,10 @@ docker run --rm \
   -v $(pwd):/app \
   -w /app \
   sstc/headful-chromium \
-  ./example-entrypoint.sh node example-launch.mjs
+  ./example-entrypoint.sh node example-standalone.mjs
 ```
 
-#### Option B: Start Browser Server and Connect Remotely
+#### Option B: Start Browser Server and Connect Remotely (Server-client mode)
 
 **Step 1:** Start the browser server in a dedicated container:
 
@@ -62,7 +62,7 @@ docker run --rm \
   -v $(pwd):/app \
   -w /app \
   sstc/headful-chromium \
-  node example-connect.mjs
+  node example-client.mjs
 ```
 
 ## Refs
@@ -102,7 +102,7 @@ docker run --rm \
   ```bash
   docker build -f debian-12/Dockerfile -t test --build-arg PLAYWRIGHT_VERSION=1.53.1 --progress=plain --no-cache .
   docker run -it --ipc=host -v $(pwd):/app -w /app test /bin/bash
-  docker run -v $(pwd):/app -w /app test ./example-entrypoint.sh node example-launch.mjs
+  docker run -v $(pwd):/app -w /app test ./example-entrypoint.sh node example-standalone.mjs
   ```
 
   ```bash
