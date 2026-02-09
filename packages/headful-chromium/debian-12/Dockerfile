@@ -7,8 +7,8 @@ RUN set -ex; \
 	DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -y \
 		curl \
 		ca-certificates \
-	# Install headful deps
 		chromium \
+	# Install headful deps
 		xvfb \
 		xauth \
 		; \
@@ -29,7 +29,7 @@ RUN set -ex; \
 ENV NODE_PATH=/usr/lib/node_modules
 RUN set -e; \
 	if [ "$NODE_PATH" != "$(npm root -g)" ]; then \
-		echo >&2 "NODE_PATH invalid" && exit 2; \
+		echo >&2 "Invalid \$NODE_PATH: $NODE_PATH" && exit 2; \
 	fi
 
 RUN set -e; \
