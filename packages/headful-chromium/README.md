@@ -1,6 +1,6 @@
 # headful-chromium
 
-[![Build workflow](https://github.com/docker-sstc/mono/actions/workflows/headfule-chromium.yml/badge.svg)](https://github.com/docker-sstc/mono/actions)
+[![Build workflow](https://github.com/docker-sstc/mono/actions/workflows/headful-chromium.yml/badge.svg)](https://github.com/docker-sstc/mono/actions)
 [![Docker pulls](https://img.shields.io/docker/pulls/sstc/headful-chromium.svg)](https://hub.docker.com/r/sstc/headful-chromium)
 
 ## Usage
