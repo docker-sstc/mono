@@ -1,7 +1,8 @@
 #!/bin/bash
 
+OC_VERSION=1.4.0
 CONF_FILE=./src/ocserv.conf
-SAMPLE_CONF_URL="https://gitlab.com/openconnect/ocserv/-/raw/master/doc/sample.config?ref_type=heads&inline=false"
+SAMPLE_CONF_URL="https://gitlab.com/openconnect/ocserv/-/raw/${OC_VERSION}/doc/sample.config?ref_type=tags&inline=false"
 # SAMPLE_CONF_URL="https://github.com/iw4p/OpenConnect-Cisco-AnyConnect-VPN-Server-OneKey-ocserv/raw/master/ocserv.conf"
 
 wget "$SAMPLE_CONF_URL" -O - | grep -o '^[^#]*' > ${CONF_FILE}

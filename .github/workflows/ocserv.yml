@@ -1,6 +1,7 @@
 env:
   PACKAGE_ID: ocserv
   ALPINE_VERSION: 3.23
+  OC_VERSION: 1.4.0
 on:
   push:
     branches:
@@ -33,6 +34,7 @@ jobs:
         tags: sstc/${{ env.PACKAGE_ID }}:latest
         build-args: |
           ALPINE_VERSION=${{ env.ALPINE_VERSION }}
+          OC_VERSION=${{ env.OC_VERSION }}
     - uses: christian-korneck/update-container-description-action@v1
       env:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}

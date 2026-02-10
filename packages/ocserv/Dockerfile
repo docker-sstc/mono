@@ -1,9 +1,9 @@
 ARG ALPINE_VERSION
+# https://ocserv.openconnect-vpn.net/download
+# https://www.infradead.org/ocserv/download/
+ARG OC_VERSION
 FROM alpine:${ALPINE_VERSION}
 
-# https://ocserv.openconnect-vpn.net/download
-ENV OC_VERSION=1.3.0
-# https://www.infradead.org/ocserv/download/
 # ENV OC_GPG_KEY=96865171
 # gpg --keyserver pgp.mit.edu --receive-keys 96865171
 # gpg: keybox '/root/.gnupg/pubring.kbx' created
@@ -15,7 +15,7 @@ ENV OC_VERSION=1.3.0
 # gpg: key 29EE58B996865171: public key "Nikos Mavrogiannopoulos <n.mavrogiannopoulos@gmail.com>" imported
 # gpg: Total number processed: 2
 # gpg:               imported: 2
-ENV OC_GPG_KEY=90BD336396865171
+ENV OC_GPG_KEY=29EE58B996865171
 
 RUN set -ex; \
     apk add --no-cache --virtual .build-dependencies \
