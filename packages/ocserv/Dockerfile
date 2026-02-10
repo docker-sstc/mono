@@ -1,8 +1,9 @@
 ARG ALPINE_VERSION
+FROM alpine:${ALPINE_VERSION}
+
 # https://ocserv.openconnect-vpn.net/download
 # https://www.infradead.org/ocserv/download/
 ARG OC_VERSION
-FROM alpine:${ALPINE_VERSION}
 
 # ENV OC_GPG_KEY=96865171
 # gpg --keyserver pgp.mit.edu --receive-keys 96865171
