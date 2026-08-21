@@ -1,6 +1,6 @@
 env:
   PACKAGE_ID: headful-chromium
-  PLAYWRIGHT_VERSION: 1.61.0
+  PLAYWRIGHT_VERSION: 1.62.1
 on:
   push:
     branches:
