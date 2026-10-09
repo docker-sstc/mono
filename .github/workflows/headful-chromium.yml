@@ -24,29 +24,12 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - id: meta_debian11
-      uses: docker/metadata-action@v5
-      with:
-        images: |
-          sstc/${{ env.PACKAGE_ID }}
-        tags: |
-          type=raw,value=debian-11
-    - uses: docker/build-push-action@v6
-      with:
-        context: ./packages/${{ env.PACKAGE_ID }}
-        push: true
-        platforms: linux/amd64,linux/arm64
-        file: ./packages/${{ env.PACKAGE_ID }}/debian-11/Dockerfile
-        tags: ${{ steps.meta_debian11.outputs.tags }}
-        build-args: |
-          PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
     - id: meta_debian12
       uses: docker/metadata-action@v5
       with:
         images: |
           sstc/${{ env.PACKAGE_ID }}
         tags: |
-          type=raw,value=debian
           type=raw,value=debian-12
     - uses: docker/build-push-action@v6
       with:
@@ -55,6 +38,23 @@ jobs:
         platforms: linux/amd64,linux/arm64
         file: ./packages/${{ env.PACKAGE_ID }}/debian-12/Dockerfile
         tags: ${{ steps.meta_debian12.outputs.tags }}
+        build-args: |
+          PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
+    - id: meta_debian13
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          sstc/${{ env.PACKAGE_ID }}
+        tags: |
+          type=raw,value=debian
+          type=raw,value=debian-13
+    - uses: docker/build-push-action@v6
+      with:
+        context: ./packages/${{ env.PACKAGE_ID }}
+        push: true
+        platforms: linux/amd64,linux/arm64
+        file: ./packages/${{ env.PACKAGE_ID }}/debian-13/Dockerfile
+        tags: ${{ steps.meta_debian13.outputs.tags }}
         build-args: |
           PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
     - id: meta_ubuntu22
@@ -79,8 +79,6 @@ jobs:
         images: |
           sstc/${{ env.PACKAGE_ID }}
         tags: |
-          type=raw,value=latest
-          type=raw,value=ubuntu
           type=raw,value=ubuntu-24
     - uses: docker/build-push-action@v6
       with:
@@ -89,6 +87,24 @@ jobs:
         platforms: linux/amd64,linux/arm64
         file: ./packages/${{ env.PACKAGE_ID }}/ubuntu-24/Dockerfile
         tags: ${{ steps.meta_ubuntu24.outputs.tags }}
+        build-args: |
+          PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
+    - id: meta_ubuntu26
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          sstc/${{ env.PACKAGE_ID }}
+        tags: |
+          type=raw,value=latest
+          type=raw,value=ubuntu
+          type=raw,value=ubuntu-26
+    - uses: docker/build-push-action@v6
+      with:
+        context: ./packages/${{ env.PACKAGE_ID }}
+        push: true
+        platforms: linux/amd64,linux/arm64
+        file: ./packages/${{ env.PACKAGE_ID }}/ubuntu-26/Dockerfile
+        tags: ${{ steps.meta_ubuntu26.outputs.tags }}
         build-args: |
           PLAYWRIGHT_VERSION=${{ env.PLAYWRIGHT_VERSION }}
     - uses: christian-korneck/update-container-description-action@v1

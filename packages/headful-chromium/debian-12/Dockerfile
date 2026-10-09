@@ -20,9 +20,9 @@ RUN set -ex; \
 		; \
 	apt clean; \
 	apt purge -y --auto-remove \
-    curl \
+		curl \
 		; \
-  rm -rf /usr/share/doc; \
+	rm -rf /usr/share/doc; \
 	rm -rf /var/lib/apt/lists/*
 
 # Essentials for scripts

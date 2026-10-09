@@ -1,5 +1,5 @@
 ARG PLAYWRIGHT_VERSION
-FROM debian:11-slim
+FROM debian:13-slim
 
 ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 RUN set -ex; \
