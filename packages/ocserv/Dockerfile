@@ -23,8 +23,8 @@ RUN set -ex; \
 		wget \
 		gpgme \
 		gcc \
-		make \
-		autoconf \
+		meson \
+		pkgconf \
 		xz \
 		linux-headers \
 		readline-dev \
@@ -47,9 +47,9 @@ RUN set -ex; \
 	tar -xf ocserv.tar.xz; \
 	rm ocserv.tar.xz*; \
 	cd ocserv-${OC_VERSION}; \
-	./configure; \
-	make; \
-	make install; \
+	meson setup build -Dfirewall-script=iptables; \
+	ninja -C build; \
+	ninja -C build install; \
 	cd ..; \
 	rm -fr ocserv-${OC_VERSION}; \
 	run_dependencies="$( \

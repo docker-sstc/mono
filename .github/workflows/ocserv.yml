@@ -1,7 +1,7 @@
 env:
   PACKAGE_ID: ocserv
   ALPINE_VERSION: 3.24
-  OC_VERSION: 1.4.0
+  OC_VERSION: 1.5.0
 on:
   push:
     branches:

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OC_VERSION=1.4.0
+OC_VERSION=1.5.0
 CONF_FILE=./src/ocserv.conf
 SAMPLE_CONF_URL="https://gitlab.com/openconnect/ocserv/-/raw/${OC_VERSION}/doc/sample.config?ref_type=tags&inline=false"
 # SAMPLE_CONF_URL="https://github.com/iw4p/OpenConnect-Cisco-AnyConnect-VPN-Server-OneKey-ocserv/raw/master/ocserv.conf"
