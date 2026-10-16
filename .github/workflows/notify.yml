@@ -2,6 +2,8 @@ env:
   PACKAGE_ID: notify
   ALPINE_VERSION: 3.24
 on:
+  # telegram-bot-send.sh triggers this after each release
+  workflow_dispatch:
   push:
     paths:
       - .github/workflows/notify.yml
