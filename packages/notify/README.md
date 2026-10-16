@@ -7,7 +7,7 @@ Command line notifications, all in one:
 
 - [x] Telegram: [telegram-bot-send.sh](https://github.com/up9cloud/telegram-bot-send.sh)
 - [x] Slack: [slack-cli](https://github.com/rockymadden/slack-cli)
-- [x] Discord: [discord.sh](https://github.com/ChaoticWeg/discord.sh)
+- [x] Discord: [discord.sh](https://github.com/fieu/discord.sh)
 - [ ] Teams
 - [ ] Gitter
 - [ ] Line

@@ -1,9 +1,9 @@
 ARG ALPINE_VERSION
 FROM alpine:${ALPINE_VERSION}
 
-ENV TELEGRAM_SH_SRC_URL=https://raw.githubusercontent.com/up9cloud/telegram-bot-send.sh/master/tg.ash \
+ENV TELEGRAM_SH_SRC_URL=https://github.com/up9cloud/telegram-bot-send.sh/releases/latest/download/tg.ash \
 	SLACK_SH_SRC_URL=https://raw.githubusercontent.com/rockymadden/slack-cli/master/src/slack \
-	DISCORD_SH_SRC_URL=https://raw.githubusercontent.com/ChaoticWeg/discord.sh/master/discord.sh
+	DISCORD_SH_SRC_URL=https://github.com/fieu/discord.sh/releases/latest/download/discord.sh
 
 RUN apk add --no-cache \
 	bash \
